@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using CrudsWithNancyFx.Exceptions;
 using Nancy;
 using Nancy.Bootstrapper;
+using HttpStatusCode = Nancy.HttpStatusCode;
 
 namespace CrudsWithNancyFx
 {

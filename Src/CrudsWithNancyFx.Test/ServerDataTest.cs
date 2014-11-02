@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using CrudsWithNancyFx.Models;
 using CrudsWithNancyFx.Models.Persistence;
