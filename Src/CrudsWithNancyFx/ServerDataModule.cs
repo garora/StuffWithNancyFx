@@ -16,25 +16,30 @@ namespace CrudsWithNancyFx
 
             Get["/"] = _ => Response.AsJson<object>(serverDataRepository.GetAll());
 
-            Get["/{id:int}"] = _ => FormatterExtensions.AsJson<object>(Response, serverDataRepository.Get(_.id));
+            //Get["/{id:int}"] = _ => FormatterExtensions.AsJson<object>(Response, serverDataRepository.Get(_.id));
+
+            Get["/{id:int}"] = _ => NegotiatorExtensions
+                .WithModel(Negotiate.WithStatusCode(HttpStatusCode.OK), serverDataRepository.Get(_.id));
 
             Post["/"] = _ =>
-            {
-                var data = serverDataRepository.Add(this.Bind<ServerData>());
+                {
+                    var data = serverDataRepository.Add(this.Bind<ServerData>());
 
-                return data != null ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
-            };
+                    return HttpStatusCode.OK;
+                };
 
             Put["/{id:int}"] = _ =>
             {
                 var data = this.Bind<ServerData>();
                 data.Id = _.id;
 
-                var isSuccess = serverDataRepository.Update(data);
-                return isSuccess ? HttpStatusCode.OK : HttpStatusCode.InternalServerError;
+                serverDataRepository.Update(data);
+
+                return (HttpStatusCode.OK);
+
             };
 
-            Delete["/{id:int}"] = _  =>
+            Delete["/{id:int}"] = _ =>
             {
                 serverDataRepository.Delete(_.id);
                 return HttpStatusCode.OK;
